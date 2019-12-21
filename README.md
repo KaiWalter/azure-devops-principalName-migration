@@ -1,13 +1,23 @@
 # Migrate principalNames for user accounts in Azure DevOps
 
-This script helps migrating user accounts in Azure DevOps - and if required in the connected Azure Active Directory - from principal name format to another.
+The script in this repository helps migrating user accounts in Azure DevOps and - if required - in the connected Azure Active Directory from principal name to another.
 
-## use cases
+Although it can be used for these cases ...
 
-The script can be used for these cases:
-
-- migrate from one principal name format to another e.g. `old-userid@domain.com` to  `new-userid@domain.com`
+- migrate from one domain to another e.g. `userid@old-domain.com` to  `userid@new-domain.com`
+- migrate from one principal name to another e.g. `old-userid@domain.com` to  `new-userid@domain.com`
 - migrate when last- and/or firstname had changed e.g. `firstname.old-lastname@domain.com` to  `firstname.new-lastname@domain.com`
+- copy Azure Active Directory, Azure Resource Manager and/or Azure DevOps authorizationsfrom one user account to another e.g. `userid@domain.com` to  `some-other-userid@domain.com`
+
+... it was originally created for the case when principal names for __invited__ accounts in an Azure Active Directory with connected Azure DevOps accounts change e.g. from `userid@domain.com` to  `firstname.lastname@domain.com`.
+
+## Processing flow
+
+The script `migration.py` has this main processes:
+
+- **capture** AAD (Azure Active Directory) user account group assignments and ARM (Azure Resource Manager) role assignments; **capture** AzD (Azure DevOps) entitlements and group assignments
+- **delete** accounts previously captured from AAD and AzD
+- **rebuild** accounts previously captured in AAD and AzD - inviting the AAD account, re-assigning group memberships, re-assigning ARM role assignments, re-creating in AzD, re-assigning group memberships and entitlements in AzD
 
 ## Preparations
 
@@ -66,3 +76,10 @@ This option expects a RegEx pattern to identify the user account in the AAD.
 ```sh
 .\migration.py -l "^ab.*@domain.com$"
 ```
+
+### general parameters
+
+| parameter | purpose |
+| ---- | ---- |
+| `--aad` | only process Azure Active Directory (capture, delete, rebuild) |
+| `--azd` | only process Azure DevOps (capture, delete, rebuild) |
