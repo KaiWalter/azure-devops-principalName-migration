@@ -1,0 +1,5 @@
+adal
+azure-devops
+azure-graphrbac
+azure-mgmt-authorization
+azure-mgmt-subscription
