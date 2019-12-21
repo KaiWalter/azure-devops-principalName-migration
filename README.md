@@ -54,3 +54,15 @@ With that information create a configuration file `.profile/accounts.json` and s
 | `***accountkeyn***` | A free short key identifying your Azure DevOps accounts in the migration process |
 | `***accountn***` | Account URL suffix |
 | `***full access - personal access token***` | Full access _PAT_ to the particular account |
+
+## Usage
+
+### listing users
+
+List AAD users with their reference to the configured Azure DevOps accounts into a file `userlist.txt`.
+
+This option expects a RegEx pattern to identify the user account in the AAD.
+
+```sh
+.\migration.py -l "^ab.*@domain.com$"
+```

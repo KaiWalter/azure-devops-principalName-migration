@@ -1,12 +1,11 @@
-# Python environment
-azd/
-
 # sensivite configuration file
 .profile
 
 # work files
 migration.log
 migration.json
+userlist.txt
+.vscode/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

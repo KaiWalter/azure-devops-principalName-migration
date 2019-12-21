@@ -1,10 +1,11 @@
-from migration_logging import *
+from modules.logging import *
+import modules.listusers as listusers
 import argparse
 import logging
 
 # --------------------------------------------------------------------------------
 
-def main(listusers: bool, capture: bool, upn_file: str, users: str, delete: bool, rebuild: bool, workitems: bool, aad: bool, azd: bool, debug: bool):
+def main(listuserspattern: str, capture: bool, upn_file: str, users: str, delete: bool, rebuild: bool, workitems: bool, aad: bool, azd: bool, debug: bool):
 
     if debug:
         logging.basicConfig(filename=LOG_FILENAME,
@@ -20,8 +21,8 @@ def main(listusers: bool, capture: bool, upn_file: str, users: str, delete: bool
         process_aad = True
         process_azd = True
 
-    # if listusers:
-    #     main_listusers()
+    if listuserspattern:
+        listusers.process(listuserspattern)
     # elif capture:
     #     main_capture(upn_file, users, process_aad, process_azd)
     # elif delete:
@@ -39,8 +40,8 @@ def main(listusers: bool, capture: bool, upn_file: str, users: str, delete: bool
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description='Universal user UPN migration tool capture-delete-rebuild')
-    parser.add_argument("-l", "--list", required=False, action='store_true', dest="listusers",
-                        help="list users in AAD to be migrated")
+    parser.add_argument("-l", "--list", required=False, dest="listuserspattern",
+                        help="list users for a given pattern in AAD to be migrated")
     parser.add_argument("-c", "--capture", required=False, action='store_true',
                         dest="capture", help="capture current AAD and AzD roles and authorizations for a given set of users")
     parser.add_argument("-f", "--file", required=False, dest="file",
@@ -61,5 +62,5 @@ if __name__ == "__main__":
                         dest="debug", help="log on DEBUG level (default:INFO)")
     args = parser.parse_args()
 
-    main(args.listusers, args.capture, args.file, args.users,
+    main(args.listuserspattern, args.capture, args.file, args.users,
          args.delete, args.rebuild, args.workitems, args.aad, args.azd, args.debug)
