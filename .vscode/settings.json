@@ -4,5 +4,5 @@
         "titleBar.activeBackground": "#244545",
         "titleBar.activeForeground": "#F6FAFA"
     },
-    "python.pythonPath": "azd\\Scripts\\python.exe"
+    "python.pythonPath": "env\\Scripts\\python.exe"
 }

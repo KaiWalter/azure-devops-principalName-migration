@@ -54,5 +54,3 @@ def process(listuserspattern):
             for columnkey in dataset[rowkey].keys():
                 row += ',' + str(dataset[rowkey][columnkey])
             f.write(row + '\n')
-
-

@@ -11,7 +11,16 @@ Although it can be used for these cases ...
 
 ... it was originally created for the case when principal names for __invited__ accounts in an Azure Active Directory with connected Azure DevOps accounts change e.g. from `userid@domain.com` to  `firstname.lastname@domain.com`.
 
-## Processing flow
+## abbreviations used
+
+| term | |
+| ---- | ---- |
+| AAD | Azure Active Directory |
+| ARM | Azure Resource Manager |
+| AzD | Azure DevOps |
+| UPN | User Principal Name |
+
+## processing flow
 
 The script `migration.py` has this main processes:
 
@@ -77,9 +86,31 @@ This option expects a RegEx pattern to identify the user account in the AAD.
 .\migration.py -l "^ab.*@domain.com$"
 ```
 
+### capture user account information
+
+Users to be captured (analyzed) for a migration can be either specified in a text file - as a migrate from UPN to UPN pair - with a line for each user ...
+
+```text
+userid@domain.com,firstname.lastname@domain.com
+userid2@domain.com,firstname2.lastname2@domain.com
+```
+
+```bash
+.\migration.py -c -f .\upnPilot1.txt
+```
+
+... or directly as an argument
+
+```bash
+.\migration.py -c -u "userid@domain.com,firstname.lastname@domain.com"
+```
+
+Results of the capture can be verified in ```migration.json```.
+
 ### general parameters
 
 | parameter | purpose |
 | ---- | ---- |
 | `--aad` | only process Azure Active Directory (capture, delete, rebuild) |
 | `--azd` | only process Azure DevOps (capture, delete, rebuild) |
+| `--debug` | switch logging to DEBUG mode so that SDK logs API calls |

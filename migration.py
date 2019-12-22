@@ -1,11 +1,12 @@
 from modules.logging import *
 import modules.listusers as listusers
+import modules.capture as capture
 import argparse
 import logging
 
 # --------------------------------------------------------------------------------
 
-def main(listuserspattern: str, capture: bool, upn_file: str, users: str, delete: bool, rebuild: bool, workitems: bool, aad: bool, azd: bool, debug: bool):
+def main(listuserspattern: str, process_capture: bool, upn_file: str, users: str, process_delete: bool, process_rebuild: bool, process_workitems: bool, aad: bool, azd: bool, debug: bool):
 
     if debug:
         logging.basicConfig(filename=LOG_FILENAME,
@@ -23,8 +24,8 @@ def main(listuserspattern: str, capture: bool, upn_file: str, users: str, delete
 
     if listuserspattern:
         listusers.process(listuserspattern)
-    # elif capture:
-    #     main_capture(upn_file, users, process_aad, process_azd)
+    elif process_capture:
+        capture.process(upn_file, users, process_aad, process_azd)
     # elif delete:
     #     main_delete(process_aad, process_azd)
     # elif rebuild:
