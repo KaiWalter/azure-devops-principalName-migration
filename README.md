@@ -1,6 +1,6 @@
 # Migrate principalNames for user accounts in Azure DevOps
 
-The script in this repository helps migrating user accounts in Azure DevOps and - if required - in the connected Azure Active Directory from principal name to another.
+The script in this repository helps migrating user accounts in Azure DevOps and - if required - invited user accounts in the connected Azure Active Directory from one principal name to another.
 
 Although it can be used for these cases ...
 
@@ -27,13 +27,15 @@ The script `migration.py` has this main processes:
 - **capture** AAD (Azure Active Directory) user account group assignments and ARM (Azure Resource Manager) role assignments; **capture** AzD (Azure DevOps) entitlements and group assignments
 - **delete** accounts previously captured from AAD and AzD
 - **rebuild** accounts previously captured in AAD and AzD - inviting the AAD account, re-assigning group memberships, re-assigning ARM role assignments, re-creating in AzD, re-assigning group memberships and entitlements in AzD
+- transfer **work items** from one principal to another
 
 ## Preparations
 
 ### install dependencies
 
+> if you care - create and activate a Python virtual environment before
+
 - install Python 3.7+
-- if you care - create and activate a Python virtual environment
 - install dependencies : ```pip install -r .\requirements.txt```
 
 ### configure Azure and Azure DevOps accounts
