@@ -5,9 +5,46 @@ from azure.graphrbac import GraphRbacManagementClient
 from azure.mgmt.authorization import AuthorizationManagementClient
 from azure.mgmt.subscription import SubscriptionClient
 from modules.config import load_config
+from modules.logging import *
 from msrestazure.azure_active_directory import AdalAuthentication
 from msrestazure.azure_cloud import AZURE_PUBLIC_CLOUD
 import adal
+import requests
+
+AZD_GRAPH_RESOURCE = 'https://graph.microsoft.com'
+
+# globals
+session = None
+
+
+def get_aad_graph_token():
+    config = load_config()
+    tenantID = config['aadAccount']['tenant']
+    appId = config['aadAccount']['appId']
+    appPassword = config['aadAccount']['password']
+    authURL = "https://login.windows.net/" + tenantID
+    context = adal.AuthenticationContext(
+        authURL, validate_authority=tenantID, api_version=None)
+    token = context.acquire_token_with_client_credentials(
+        AZD_GRAPH_RESOURCE, appId, appPassword)
+    return token['tokenType'] + " " + token['accessToken']
+
+
+def postAPI(url, body, token):
+    global session
+
+    if not session:
+        session = requests.Session()
+
+    headers = {'Content-Type': 'application/json',
+               'Authorization': token}
+    response = session.post(url, headers=headers, data=body)
+    if response.status_code >= 400:
+        printWarning('FAILED HTTP RESPONSE:POST {} {}'.format(
+            url, response.text))
+    response.raise_for_status()
+    return response.json()
+
 
 
 def get_aad_credentials(resource=None):

@@ -1,6 +1,8 @@
 from modules.logging import *
 import modules.listusers as listusers
 import modules.capture as capture
+import modules.delete as delete
+import modules.rebuild as rebuild
 import argparse
 import logging
 
@@ -26,10 +28,10 @@ def main(listuserspattern: str, process_capture: bool, upn_file: str, users: str
         listusers.process(listuserspattern)
     elif process_capture:
         capture.process(upn_file, users, process_aad, process_azd)
-    # elif delete:
-    #     main_delete(process_aad, process_azd)
-    # elif rebuild:
-    #     main_rebuild(process_aad, process_azd)
+    elif process_delete:
+        delete.process(process_aad, process_azd)
+    elif process_rebuild:
+        rebuild.process(process_aad, process_azd)
     # elif workitems:
     #     main_work_items(upn_file, users)
     else:

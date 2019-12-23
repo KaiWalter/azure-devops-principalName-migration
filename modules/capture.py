@@ -145,7 +145,7 @@ def capture_azd(config, migrationSourceUPNs, migrationTargetUPNs):
     azd_capture = {}
 
     for azd_account in config['azdAccounts']:
-        print(f'capture Azd account information : {azd_account}')
+        print(f'capture AzD account information : {azd_account}')
         azdUsers, azdEntitlements, azdMemberships, azdAvatars = capture_azd_instance(
             config['azdAccounts'][azd_account], migrationSourceUPNs)
 
