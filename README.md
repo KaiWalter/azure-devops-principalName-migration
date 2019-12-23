@@ -107,6 +107,42 @@ userid2@domain.com,firstname2.lastname2@domain.com
 
 Results of the capture can be verified in ```migration.json```.
 
+### delete old user
+
+Delete capture (old) user accounts:
+
+```bash
+.\migration.py -d
+```
+
+Delete only in Azure DevOps:
+
+```bash
+.\migration.py -d --azd
+```
+
+### rebuild with new user
+
+Rebuild user accounts from captured information:
+
+```bash
+.\migration.py -r
+```
+
+### transfer work items
+
+Transfer work items from captured information:
+
+```bash
+.\migration.py -w
+```
+
+Transfer work items directly (full diplayname is expected):
+
+```bash
+.\migration.py -w -u "John Doe <john.doe@old-domain.com>,John Doe <john.doe@new-domain.com>"
+```
+
 ### general parameters
 
 | parameter | purpose |

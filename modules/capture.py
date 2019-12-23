@@ -12,7 +12,7 @@ PAIR_SAMPLE = 'userid@domain.com,firstname.lastname@domain.com'
 
 def process(upn_file: str, users: str, aad: bool, azd: bool):
 
-    migrationSourceUPNs, migrationTargetUPNs = extract_migration_UPNs(
+    migrationSourceUPNs, migrationTargetUPNs = extract_migration_upns(
         upn_file, users)
 
     if len(migrationSourceUPNs) == 0 or len(migrationTargetUPNs) == 0:
@@ -66,7 +66,7 @@ def read_capture():
         return
 
 
-def extract_migration_UPNs(upn_file: str, users: str):
+def extract_migration_upns(upn_file: str, users: str):
 
     migrationSourceUPNs = []
     migrationTargetUPNs = []
