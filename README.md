@@ -98,7 +98,7 @@ userid2@domain.com,firstname2.lastname2@domain.com
 ```
 
 ```bash
-.\migration.py -c -f .\upnPilot1.txt
+.\migration.py -c -f .\upnsbatch1.txt
 ```
 
 ... or directly as an argument
