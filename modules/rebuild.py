@@ -144,9 +144,6 @@ def process(aad: bool, azd: bool):
                     printInfo('creating graph user {} in AzD {}'.format(
                         u['targetUPN'], azd_account))
                         
-                    q = GraphSubjectQuery("Kai Walter",subject_kind=['User'])
-                    x = azd_graph_client.query_subjects(q)
-
                     new_graph_user = GraphUserPrincipalNameCreationContext(
                         storage_key=u['targetUPN'], principal_name=u['targetUPN'])
 
@@ -160,28 +157,30 @@ def process(aad: bool, azd: bool):
                         printException(
                             'AzD graph user created does not have matching principal name')
 
-                    printInfo('creating entitlement {} in AzD {}'.format(
-                        u['targetUPN'], azd_account))
-                    new_access_level = AccessLevel(
-                        account_license_type=user_account['azd_account_license_type'], msdn_license_type=user_account['azd_msdn_license_type'])
-                    new_extensions = []
-                    if 'azd_extensions' in user_account:
-                        for x in user_account['azd_extensions']:
-                            if x:
-                                new_extensions.append(Extension(
-                                    assignment_source=x['assignment_source'], id=x['id'], name=x['name'], source=x['source']))
-                    new_user_entitlement = UserEntitlement(
-                        access_level=new_access_level, extensions=new_extensions, user=graph_user)
-                    entitlement = azd_entitlement_client.add_user_entitlement(
-                        new_user_entitlement)
-                    printInfo(entitlement)
+                    if 'azd_account_license_type' in user_account and 'azd_msdn_license_type' in user_account:
+                        printInfo('creating entitlement {} in AzD {}'.format(
+                            u['targetUPN'], azd_account))
+                        new_access_level = AccessLevel(
+                            account_license_type=user_account['azd_account_license_type'], msdn_license_type=user_account['azd_msdn_license_type'])
+                        new_extensions = []
+                        if 'azd_extensions' in user_account:
+                            for x in user_account['azd_extensions']:
+                                if x:
+                                    new_extensions.append(Extension(
+                                        assignment_source=x['assignment_source'], id=x['id'], name=x['name'], source=x['source']))
+                        new_user_entitlement = UserEntitlement(
+                            access_level=new_access_level, extensions=new_extensions, user=graph_user)
+                        entitlement = azd_entitlement_client.add_user_entitlement(
+                            new_user_entitlement)
+                        printInfo(entitlement)
 
-                    for m in user_account['azd_member_ships']:
-                        printInfo('adding membership for graph user {} to {}'.format(
-                            u['targetUPN'], m['name']))
-                        member_ship = azd_graph_client.add_membership(
-                            subject_descriptor=graph_user.descriptor, container_descriptor=m['descriptor'])
-                        printInfo(member_ship)
+                    if 'azd_member_ships' in user_account:
+                        for m in user_account['azd_member_ships']:
+                            printInfo('adding membership for graph user {} to {}'.format(
+                                u['targetUPN'], m['name']))
+                            member_ship = azd_graph_client.add_membership(
+                                subject_descriptor=graph_user.descriptor, container_descriptor=m['descriptor'])
+                            printInfo(member_ship)
 
                     if 'azd_avatar' in u:
                         azd_graph_client.set_avatar(
