@@ -63,10 +63,10 @@ def process(aad: bool, azd: bool):
                     url=AZD_GRAPH_INVITE_URL, body=postBody, token=graph_token)
                 printInfo(response)
 
-                printInfo(
-                    'setting authorizations for user {} in AAD'.format(u['targetUPN']))
-
             # retry until Graph RBAC client picks up user invited directly over API
+            printInfo(
+                'setting authorizations for user {} in AAD'.format(u['targetUPN']))
+
             user_found = False
             retry_count = 0
 
