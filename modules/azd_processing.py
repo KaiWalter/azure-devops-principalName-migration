@@ -85,15 +85,19 @@ def load_azd_avatars(client, azdUsers):
             'avatar': {}
         }
 
-        payload = client.get_avatar(
-            subject_descriptor=user.descriptor)
+        try:
+            payload = client.get_avatar(
+                subject_descriptor=user.descriptor)
 
-        if payload:
-            if not payload.is_auto_generated:
-                avatar_entry['avatar'] = {
-                    "size": payload.size, "value": payload.value}
+            if payload:
+                if not payload.is_auto_generated:
+                    avatar_entry['avatar'] = {
+                        "size": payload.size, "value": payload.value}
 
-        azdAvatars.append(avatar_entry)
+            azdAvatars.append(avatar_entry)
+
+        except:
+            pass
 
     return azdAvatars
 

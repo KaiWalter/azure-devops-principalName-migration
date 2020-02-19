@@ -22,8 +22,9 @@ def process(upn_file: str, users: str, aad: bool, azd: bool):
     aad_capture = capture_aad(migrationSourceUPNs)
 
     # capture Azd account information
-    azd_capture = capture_azd(
-        load_config(), migrationSourceUPNs, migrationTargetUPNs)
+    if azd:
+        azd_capture = capture_azd(
+            load_config(), migrationSourceUPNs, migrationTargetUPNs)
 
     # prepare and write capture file
     capture = {'records': []}
@@ -45,9 +46,11 @@ def process(upn_file: str, users: str, aad: bool, azd: bool):
             'aad_object_id': aadMemberships_extract[0]['object_id'] if len(aadMemberships_extract) > 0 else "",
             'aad_display_name': aadMemberships_extract[0]['display_name'] if len(aadMemberships_extract) > 0 else "",
             'aad_member_ships': aadMemberships_extract[0]['groups'] if len(aadMemberships_extract) > 0 else "",
-            'aad_role_assignments': [{'subscription_id': x['subscription_id'], 'resources':x['resources']} for x in aadRoleAssignments_extract],
-            'azd': azd_capture[sourceUPN]
+            'aad_role_assignments': [{'subscription_id': x['subscription_id'], 'resources':x['resources']} for x in aadRoleAssignments_extract]
         }
+
+        if azd and sourceUPN in azd_capture:
+            record['azd'] = azd_capture[sourceUPN]
 
         capture['records'].append(record)
 
