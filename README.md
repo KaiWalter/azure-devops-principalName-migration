@@ -40,6 +40,8 @@ The script `migration.py` has this main processes:
 
 ### configure Azure and Azure DevOps accounts
 
+> DISCLAIMER! The success of capture and rebuild hugely depends on the authorizations given to these accounts. Check the captured information thoroughly. I had cases where I had to assign IAM / Subscription Owner to the registered app.
+
 For Azure an registered app is required with these _application permissions_:
 Microsoft Graph -> Directory.ReadWrite.All + User.Invite.All + User.ReadWrite.All
 
