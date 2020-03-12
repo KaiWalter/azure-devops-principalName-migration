@@ -28,7 +28,7 @@ def process(upn_file: str, users: str):
             return
 
         for u in capture['records']:
-            if u['azd']:
+            if 'azd' in u:
                 for azd_account in u['azd']:
 
                     azd_account_config = config['azdAccounts'][azd_account]

@@ -63,6 +63,9 @@ def process(aad: bool, azd: bool):
                     url=AZD_GRAPH_INVITE_URL, body=postBody, token=graph_token)
                 printInfo(response)
 
+
+        for u in capture['records']:
+
             # retry until Graph RBAC client picks up user invited directly over API
             printInfo(
                 'setting authorizations for user {} in AAD'.format(u['targetUPN']))
@@ -130,7 +133,7 @@ def process(aad: bool, azd: bool):
         config = load_config()
 
         for u in capture['records']:
-            if u['azd']:
+            if 'azd' in u:
                 for azd_account in u['azd']:
 
                     azd_account_config = config['azdAccounts'][azd_account]

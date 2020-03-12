@@ -20,7 +20,7 @@ def process(aad: bool, azd: bool):
     if azd:
 
         for u in capture['records']:
-            if u['azd']:
+            if 'azd' in u:
                 for azd_account in u['azd']:
                     azd_account_config = config['azdAccounts'][azd_account]
                     azd_entitlement_client = get_azd_entitlement_client(
@@ -56,7 +56,7 @@ def process(aad: bool, azd: bool):
         az_graph_rbac_client = get_graph_rbac_client()
 
         for u in capture['records']:
-            if u['aad_object_id']:
+            if 'aad_object_id' in u:
                 try:
                     user_check = az_graph_rbac_client.users.get(
                         upn_or_object_id=u['aad_object_id'])
