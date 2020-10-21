@@ -26,13 +26,13 @@ def load_azd_entitlements(client, azdUsers):
 
     azdEntitlements = []
 
-    user_entitlements = client.search_user_entitlements()
-
     for user in azdUsers:
+
+        user_entitlements = client.search_user_entitlements(filter=f"name eq '{user.principal_name}'")
 
         for member in user_entitlements.members:
 
-            if user.descriptor == member.user.descriptor:
+            if user.principal_name == member.user.principal_name:
                 azdEntitlements.append({
                     'upn': user.principal_name,
                     'id': member.id,
